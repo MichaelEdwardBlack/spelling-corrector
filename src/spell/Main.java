@@ -13,13 +13,16 @@ public class Main {
 	 * as the second argument.
 	 */
 	public static void main(String[] args) throws IOException {
-		
-		String dictionaryFileName = args[0];
-		String inputWord = args[1];
-		
-		/**
-		 * Create an instance of your corrector here
-		 */
+		String dictionaryFileName = "";
+		String inputWord = "";
+
+		try {
+			dictionaryFileName = args[0];
+			inputWord = args[1];
+		} catch (Exception e) {
+			System.err.println("Invalid number of arguments");
+		}
+		/*
 		ISpellCorrector corrector = null;
 		
 		corrector.useDictionary(dictionaryFileName);
@@ -29,6 +32,19 @@ public class Main {
 		}
 		
 		System.out.println("Suggestion is: " + suggestion);
+		*/
+		ISpellCorrector.SpellCorrector corrector = null;
+		try {
+			corrector = new ISpellCorrector.SpellCorrector();
+			corrector.useDictionary(dictionaryFileName);
+		} catch (Exception e) {
+			System.out.println("Scanner problem\n");
+		}
+		try {
+			System.out.println(corrector.getAllWords());
+		} catch (Exception e) {
+			System.out.println("print words problem");
+		}
 	}
 
 }

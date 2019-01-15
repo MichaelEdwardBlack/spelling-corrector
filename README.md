@@ -99,15 +99,20 @@ For each word, in alphabetical order:
 < word > \n
 …
 
-Make sure your hashCode values are reasonably unique (like a good hashCode
-should be).
+Your hashCode() method should produce hashCode values that satisfy the general contract of hashCode
+(as specified in the Javadoc for the hashCode method of Object) and are reasonably unique (like a good
+hashCode should be).
 
-The equals() method has to be thorough! Don’t just check the counts and call it
-a day. You need to traverse both Tries fully and make sure they are the same.
+The equals() method has to be thorough! You need to traverse both Tries fully and make sure they are
+the same.
 
-Both the equals and the to String must be recursive. Use of other data
-structures will not be allowed in the trie. The hashcode should run in constant
-time.
+**Use of other data structures is not allowed in the trie.** For example, it is common to use a separate
+data structure, such as a Stack or Queue to traverse the nodes of a tree structure. This is not allowed in
+your Trie implementation. Instead of relying on these other data structures, both the equals and the
+toString methods must be recursive. The hashcode method should run in constant time.
+
+Your Trie class must implement the ITrie interface provided on the course website and your TrieNode
+must implement the ITrie.INode interface.
 
 ### Spell Corrector Functionality
 You will load all the words found in the provided file into your Trie using
