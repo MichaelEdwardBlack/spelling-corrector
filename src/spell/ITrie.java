@@ -62,166 +62,35 @@ public interface ITrie {
 		 */
 		public int getCount();
 	}
-	
-	public class Words implements ITrie {
-		private int numNodes = 1; // includes the root node
-		private int numWords = 0;
-		private WordNode root = new WordNode();
-		private WordNode iNode = root; // iterating node for the toString function
 
-		public void add(String word) {
-			WordNode currentNode = this.root;
-			char currentLetter;
-			int index;
-
-			for (int i = 0; i < word.length(); i++) {
-				currentLetter = word.charAt(i);
-				index = currentLetter - 'a';
-				if (currentNode.hasChild(currentLetter)) {
-					currentNode = currentNode.nodes[index];
-				}
-				else {
-					currentNode.nodes[index] = new WordNode();
-					currentNode = currentNode.nodes[index];
-					this.numNodes++;
-				}
-			}
-			currentNode.setValue(word);
-			currentNode.incrementCount();
-			this.numWords++;
-		}
-
-	 	public WordNode find(String word) {
-			WordNode currentNode = this.root;
-			char currentLetter;
-			int index;
-
-			for (int i = 0; i < word.length(); i++) {
-				currentLetter = word.charAt(i);
-				index = currentLetter - 'a';
-				if (currentNode.hasChild(currentLetter)) {
-					currentNode = currentNode.nodes[index];
-				}
-				else {
-					// Return a null WordNode
-					return new WordNode();
-				}
-			}
-			return currentNode;
-		}
-
-	 	public int getWordCount() {
-			return this.numWords;
-		}
-
-	 	public int getNodeCount() {
-			return this.numNodes;
-		}
-
-		public WordNode getRoot() {
-			return this.root;
-		}
-
-	 	@Override
-	 	public String toString() {
-			return this.root.toString();
-		}
-
-		/*
-	 	@Override
-		public int hashCode() {
-			//FIXME
-			return -1;
-		}
-
-		@Override
-		public boolean equals(Object trie) {
-			//FIXME
-			return false;
-		}
-		*/
-
-	}
-
-	class WordNode implements ITrie.INode {
-		public WordNode[] nodes;
-		private String value;
-		private int count;
-		private boolean isWord;
-		static final int ALPHABET_SIZE = 26;
-
-		// Default Constructor
-		public WordNode() {
-			nodes = new WordNode[ALPHABET_SIZE];
-			count = 0;
-			isWord = false;
-			for (int i = 0; i < ALPHABET_SIZE; i++) {
-				nodes[i] = null;
-			}
-		}
-
-		// Getters and Setters
-		public String getValue() {
-			return this.value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-			isWord = true;
-		}
-
-		public int getCount() {
-			return this.count;
-		}
-
-		public void incrementCount() {
-	 		this.count++;
-		}
-
-		public boolean hasChild(Character letter) {
-			int index = letter - 'a';
-			if (this.nodes[index] != null) {
-				return true;
-			}
-			return false;
-		}
-
-		public boolean isWord() {
-			return this.isWord;
-		}
-
-		public boolean equals(WordNode node) {
-			if (this.value != node.getValue()) {
-				return false;
-			}
-			if (this.count != node.getCount()) {
-				return false;
-			}
-			boolean equals = true;
-			for (int i = 0; i < ALPHABET_SIZE; i++) {
-				if (this.nodes[i].equals(node.nodes[i]) == false) {
-						equals = false;
-				}
-			}
-			return equals;
-		}
-
-		public String toString() {
-			String ret = "";
-
-			for (int i = 0; i < ALPHABET_SIZE; i++) {
-				if (this.nodes[i] == null) {
-					// do nothing;
-				}
-				else {
-					if (this.nodes[i].isWord()) {
-						ret += this.nodes[i].getValue() + "\n";
-					}
-					ret += this.nodes[i].toString();
-				}
-			}
-			return ret;
-		}
-
-	}
+	/*
+	 * EXAMPLE:
+	 *
+	 * public class Words implements ITrie {
+	 *
+	 * 		public void add(String word) { ... }
+	 *
+	 * 		public ITrie.INode find(String word) { ... }
+	 *
+	 * 		public int getWordCount() { ... }
+	 *
+	 * 		public int getNodeCount() { ... }
+	 *
+	 *		@Override
+	 *		public String toString() { ... }
+	 *
+	 *		@Override
+	 *		public int hashCode() { ... }
+	 *
+	 *		@Override
+	 *		public boolean equals(Object o) { ... }
+	 *
+	 * }
+	 *
+	 * public class WordNode implements ITrie.INode {
+	 *
+	 * 		public int getValue() { ... }
+	 * }
+	 *
+	 */
 }

@@ -20,7 +20,8 @@ public class Main {
 			dictionaryFileName = args[0];
 			inputWord = args[1];
 		} catch (Exception e) {
-			System.err.println("Invalid number of arguments");
+			System.err.println("Invalid arguments: ");
+			System.err.println("Usage: java <program> <dictionary_path> <word>");
 		}
 		/*
 		ISpellCorrector corrector = null;
@@ -33,18 +34,15 @@ public class Main {
 		
 		System.out.println("Suggestion is: " + suggestion);
 		*/
-		ISpellCorrector.SpellCorrector corrector = null;
+		SpellCorrector corrector = null;
 		try {
-			corrector = new ISpellCorrector.SpellCorrector();
+			corrector = new SpellCorrector();
 			corrector.useDictionary(dictionaryFileName);
 		} catch (Exception e) {
-			System.out.println("Scanner problem\n");
+			System.err.println("Problem reading in the dictionary file\n");
 		}
-		try {
-			System.out.println(corrector.getAllWords());
-		} catch (Exception e) {
-			System.out.println("print words problem");
-		}
+
+		corrector.printAllWords();
 	}
 
 }
