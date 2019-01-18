@@ -15,18 +15,17 @@ public class Words implements ITrie {
         for (int i = 0; i < word.length(); i++) {
             currentLetter = word.charAt(i);
             index = currentLetter - 'a';
-            if (currentNode.hasChild(currentLetter)) {
-                currentNode = currentNode.nodes[index];
-            }
-            else {
+            if (!(currentNode.hasChild(currentLetter))) {
                 currentNode.nodes[index] = new WordNode();
-                currentNode = currentNode.nodes[index];
                 this.numNodes++;
             }
+            currentNode = currentNode.nodes[index];
         }
-        currentNode.setValue(word);
+        // currentNode.setValue(word);
+        if (currentNode.getCount() == 0) {
+            this.numWords++;
+        }
         currentNode.incrementCount();
-        this.numWords++;
     }
 
     public WordNode find(String word) {
@@ -41,8 +40,8 @@ public class Words implements ITrie {
                 currentNode = currentNode.nodes[index];
             }
             else {
-                // Return a null WordNode
-                return new WordNode();
+                // Return a null
+                return null;
             }
         }
         return currentNode;
@@ -54,10 +53,6 @@ public class Words implements ITrie {
 
     public int getNodeCount() {
         return this.numNodes;
-    }
-
-    public WordNode getRoot() {
-        return this.root;
     }
 
     @Override
@@ -83,29 +78,18 @@ public class Words implements ITrie {
 
 class WordNode implements ITrie.INode {
     public WordNode[] nodes;
-    private String value;
     private int count;
-    private boolean isWord;
     static final int ALPHABET_SIZE = 26;
 
     // Default Constructor
     public WordNode() {
         nodes = new WordNode[ALPHABET_SIZE];
         count = 0;
-        isWord = false;
+        /* testing
         for (int i = 0; i < ALPHABET_SIZE; i++) {
             nodes[i] = null;
         }
-    }
-
-    // Getters and Setters
-    public String getValue() {
-        return this.value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-        isWord = true;
+        */
     }
 
     public int getCount() {
@@ -125,19 +109,16 @@ class WordNode implements ITrie.INode {
     }
 
     public boolean isWord() {
-        return this.isWord;
+        return (this.count > 0);
     }
 
     public boolean equals(WordNode node) {
-        if (this.value != node.getValue()) {
-            return false;
-        }
         if (this.count != node.getCount()) {
             return false;
         }
         boolean equals = true;
         for (int i = 0; i < ALPHABET_SIZE; i++) {
-            if (this.nodes[i].equals(node.nodes[i]) == false) {
+            if (!this.nodes[i].equals(node.nodes[i])) {
                 equals = false;
             }
         }
@@ -145,20 +126,43 @@ class WordNode implements ITrie.INode {
     }
 
     public String toString() {
-        String result = "";
+        int level = 0;
+        char letter;
+        StringBuilder builder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < ALPHABET_SIZE; i++) {
-            if (this.nodes[i] == null) {
-                // do nothing;
-            }
-            else {
+            letter = (char) (i + 'a');
+            if (this.nodes[i] != null) {
+                builder.append(letter);
                 if (this.nodes[i].isWord()) {
-                    result += this.nodes[i].getValue() + "\n";
+                    result.append(builder);
+                    result.append("\n");
                 }
-                result += this.nodes[i].toString();
+                result.append(this.nodes[i].toString(builder, this.nodes[i], level));
+                builder.deleteCharAt(level);
             }
         }
-        return result;
+        return result.toString();
     }
 
+    public String toString(StringBuilder builder, WordNode node, int level) {
+        char letter;
+        StringBuilder result = new StringBuilder();
+
+        level++;
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            letter = (char) (i + 'a');
+            if (node.nodes[i] != null) {
+                builder.append(letter);
+                if (node.nodes[i].isWord()) {
+                    result.append(builder);
+                    result.append("\n");
+                }
+                result.append(node.nodes[i].toString(builder, node.nodes[i], level));
+                builder.deleteCharAt(level);
+            }
+        }
+        return result.toString();
+    }
 }

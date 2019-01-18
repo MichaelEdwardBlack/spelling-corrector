@@ -26,10 +26,10 @@ public class SpellCorrector implements ISpellCorrector {
 
     public String suggestSimilarWord(String inputWord) {
         //FIXME
-        ArrayList candidates = new ArrayList();
-        ArrayList matches = new ArrayList();
+        ArrayList<String> candidates = new ArrayList<String>();
+        ArrayList<String> matches = new ArrayList<String>();
         int wordLength = inputWord.length();
-        char insertLetter = 'a';
+        char insertLetter;
 
         if (trieWords.find(inputWord).isWord()) {
             return inputWord;
