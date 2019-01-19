@@ -26,14 +26,42 @@ public class SpellCorrector implements ISpellCorrector {
 
     public String suggestSimilarWord(String inputWord) {
         //FIXME
-        ArrayList<String> candidates = new ArrayList<String>();
-        ArrayList<String> matches = new ArrayList<String>();
-        int wordLength = inputWord.length();
-        char insertLetter;
+        ArrayList<String> candidates = createCandidates(inputWord);
+        ArrayList<String> candidates2 = new ArrayList<>();
+        ArrayList<String> matches = new ArrayList<>();
 
         if (trieWords.find(inputWord).isWord()) {
             return inputWord;
         }
+
+        for (int i = 0; i < candidates.size(); i++) {
+            if (trieWords.find(candidates.get(i)) != null
+                    && trieWords.find(candidates.get(i)).isWord()) {
+                matches.add(candidates.get(i));
+            }
+        }
+
+        if (matches.size() == 0) {
+            for (int i = 0; i < candidates.size(); i++) {
+                candidates2.add(createCandidates(candidates.get(i)).toString());
+            }
+            matches = candidates2;
+        }
+
+        if (matches.size() > 1) {
+            matches = getHighestCounts(matches);
+            if (matches.size() > 1) {
+                return firstAlphabeticalWord(matches);
+            }
+        }
+
+        return matches.toString();
+    }
+
+    private ArrayList<String> createCandidates(String inputWord) {
+        ArrayList<String> candidates = new ArrayList<>();
+        int wordLength = inputWord.length();
+        char insertLetter;
 
         // Add Deletion Candidates
         for (int i = 0; i < wordLength; i++) {
@@ -59,9 +87,32 @@ public class SpellCorrector implements ISpellCorrector {
             candidates.add(inputWord.substring(0, i) + inputWord.substring(i+1,i+2) + inputWord.substring(i,i+1)
                     + inputWord.substring(i+2, wordLength));
         }
+        return candidates;
+    }
 
+    private ArrayList<String> getHighestCounts(ArrayList<String> matches) {
+        int maxCount = 0;
+        int currentCount;
+        for (int i = 0; i < matches.size(); i++) {
+            currentCount = trieWords.find(matches.get(i)).getCount();
+            maxCount = currentCount > maxCount ? currentCount : maxCount;
+        }
+        for (int i = 0; i < matches.size(); i++) {
+            if (trieWords.find(matches.get(i)).getCount() < maxCount) {
+                matches.remove(i);
+            }
+        }
+        return matches;
+    }
 
-        return "";
+    private String firstAlphabeticalWord(ArrayList<String> matches) {
+        String firstAlphabeticalWord = "zzz";
+        for (int i = 0; i < matches.size(); i++) {
+            if (matches.get(i).compareTo(firstAlphabeticalWord) < 0) {
+                firstAlphabeticalWord = matches.get(i);
+            }
+        }
+        return firstAlphabeticalWord;
     }
 
     public void printAllWords() {

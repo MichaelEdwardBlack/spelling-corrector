@@ -23,8 +23,8 @@ public class Main {
 			System.err.println("Invalid arguments: ");
 			System.err.println("Usage: java <program> <dictionary_path> <word>");
 		}
-		/*
-		ISpellCorrector corrector = null;
+
+		SpellCorrector corrector = new SpellCorrector();
 		
 		corrector.useDictionary(dictionaryFileName);
 		String suggestion = corrector.suggestSimilarWord(inputWord);
@@ -33,16 +33,6 @@ public class Main {
 		}
 		
 		System.out.println("Suggestion is: " + suggestion);
-		*/
-		SpellCorrector corrector = null;
-		try {
-			corrector = new SpellCorrector();
-			corrector.useDictionary(dictionaryFileName);
-		} catch (Exception e) {
-			System.err.println("Problem reading in the dictionary file\n");
-		}
-
-		corrector.printAllWords();
 	}
 
 }

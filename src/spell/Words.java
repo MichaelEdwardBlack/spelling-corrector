@@ -146,7 +146,7 @@ class WordNode implements ITrie.INode {
         return result.toString();
     }
 
-    public String toString(StringBuilder builder, WordNode node, int level) {
+    private String toString(StringBuilder builder, WordNode node, int level) {
         char letter;
         StringBuilder result = new StringBuilder();
 
