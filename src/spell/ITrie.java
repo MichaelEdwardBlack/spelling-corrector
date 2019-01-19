@@ -60,7 +60,7 @@ public interface ITrie {
 		 * 
 		 * @return The frequency count for the word represented by the node
 		 */
-		public int getCount();
+		public int getValue();
 	}
 
 	/*

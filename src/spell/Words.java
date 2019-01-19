@@ -1,5 +1,6 @@
 package spell;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Words implements ITrie {
@@ -22,7 +23,7 @@ public class Words implements ITrie {
             currentNode = currentNode.nodes[index];
         }
         // currentNode.setValue(word);
-        if (currentNode.getCount() == 0) {
+        if (currentNode.getValue() == 0) {
             this.numWords++;
         }
         currentNode.incrementCount();
@@ -85,14 +86,9 @@ class WordNode implements ITrie.INode {
     public WordNode() {
         nodes = new WordNode[ALPHABET_SIZE];
         count = 0;
-        /* testing
-        for (int i = 0; i < ALPHABET_SIZE; i++) {
-            nodes[i] = null;
-        }
-        */
     }
 
-    public int getCount() {
+    public int getValue() {
         return this.count;
     }
 
@@ -112,17 +108,20 @@ class WordNode implements ITrie.INode {
         return (this.count > 0);
     }
 
-    public boolean equals(WordNode node) {
-        if (this.count != node.getCount()) {
-            return false;
-        }
-        boolean equals = true;
-        for (int i = 0; i < ALPHABET_SIZE; i++) {
-            if (!this.nodes[i].equals(node.nodes[i])) {
-                equals = false;
-            }
-        }
-        return equals;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WordNode wordNode = (WordNode) o;
+        return count == wordNode.count &&
+                Arrays.equals(nodes, wordNode.nodes);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(count);
+        result = 31 * result + Arrays.hashCode(nodes);
+        return result;
     }
 
     public String toString() {

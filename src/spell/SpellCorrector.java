@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SpellCorrector implements ISpellCorrector {
-    Words trieWords = new Words();
+    private Words trieWords = new Words();
 
     public void useDictionary(String dictionaryFileName) throws IOException {
         File inputFile = new File(dictionaryFileName);
@@ -94,11 +94,11 @@ public class SpellCorrector implements ISpellCorrector {
         int maxCount = 0;
         int currentCount;
         for (int i = 0; i < matches.size(); i++) {
-            currentCount = trieWords.find(matches.get(i)).getCount();
+            currentCount = trieWords.find(matches.get(i)).getValue();
             maxCount = currentCount > maxCount ? currentCount : maxCount;
         }
         for (int i = 0; i < matches.size(); i++) {
-            if (trieWords.find(matches.get(i)).getCount() < maxCount) {
+            if (trieWords.find(matches.get(i)).getValue() < maxCount) {
                 matches.remove(i);
             }
         }
@@ -115,6 +115,7 @@ public class SpellCorrector implements ISpellCorrector {
         return firstAlphabeticalWord;
     }
 
+    // used for testing
     public void printAllWords() {
         System.out.println(this.trieWords.toString());
     }
