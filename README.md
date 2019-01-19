@@ -198,8 +198,12 @@ also provided.
 ### Example Programs
 java Spell dictionary.txt bbig
 
-big
+Suggestion is: big
 
 java Spell dictionary.txt hello
 
-hello
+Suggestion is: hello
+
+java spell.Main words.txt abcxyz
+
+No similar word found

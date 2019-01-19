@@ -30,6 +30,10 @@ public class SpellCorrector implements ISpellCorrector {
         ArrayList<String> candidates2 = new ArrayList<>();
         ArrayList<String> matches = new ArrayList<>();
 
+        if (trieWords.find(inputWord) == null) {
+            return null;
+        }
+
         if (trieWords.find(inputWord).isWord()) {
             return inputWord;
         }
