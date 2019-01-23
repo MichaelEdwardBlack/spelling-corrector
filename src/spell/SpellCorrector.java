@@ -10,6 +10,10 @@ import java.util.Scanner;
 public class SpellCorrector implements ISpellCorrector {
     private Words trieWords = new Words();
 
+    public Words getTrie() {
+        return this.trieWords;
+    }
+
     public void useDictionary(String dictionaryFileName) throws IOException {
         File inputFile = new File(dictionaryFileName);
         FileInputStream fis = new FileInputStream(inputFile);

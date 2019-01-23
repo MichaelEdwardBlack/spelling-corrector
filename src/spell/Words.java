@@ -22,7 +22,6 @@ public class Words implements ITrie {
             }
             currentNode = currentNode.nodes[index];
         }
-        // currentNode.setValue(word);
         if (currentNode.getValue() == 0) {
             this.numWords++;
         }
@@ -113,8 +112,15 @@ class WordNode implements ITrie.INode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordNode wordNode = (WordNode) o;
-        return count == wordNode.count &&
-                Arrays.equals(nodes, wordNode.nodes);
+        if (count != wordNode.count) return false;
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            if (this.nodes[i] != null) {
+                if (!this.nodes[i].equals(wordNode.nodes[i])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

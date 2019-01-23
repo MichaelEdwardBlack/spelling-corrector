@@ -33,6 +33,8 @@ public class Main {
 		}
 		
 		System.out.println("Suggestion is: " + suggestion);
+		System.out.println("Word count = " + corrector.getTrie().getWordCount());
+		System.out.println("Node count = " + corrector.getTrie().getNodeCount());
 	}
 
 }
