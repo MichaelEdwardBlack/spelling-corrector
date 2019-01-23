@@ -29,7 +29,6 @@ public class SpellCorrector implements ISpellCorrector {
     }
 
     public String suggestSimilarWord(String inputWord) {
-        //FIXME
         ArrayList<String> candidates = createCandidates(inputWord);
         ArrayList<String> candidates2 = new ArrayList<>();
         ArrayList<String> matches = new ArrayList<>();

@@ -12,6 +12,7 @@ public class Words implements ITrie {
         WordNode currentNode = this.root;
         char currentLetter;
         int index;
+        word = word.toLowerCase();
 
         for (int i = 0; i < word.length(); i++) {
             currentLetter = word.charAt(i);
@@ -32,6 +33,7 @@ public class Words implements ITrie {
         WordNode currentNode = this.root;
         char currentLetter;
         int index;
+        word = word.toLowerCase();
 
         for (int i = 0; i < word.length(); i++) {
             currentLetter = word.charAt(i);
