@@ -32,12 +32,9 @@ public class SpellCorrector implements ISpellCorrector {
         ArrayList<String> candidates = createCandidates(inputWord);
         ArrayList<String> candidates2 = new ArrayList<>();
         ArrayList<String> matches = new ArrayList<>();
+        inputWord = inputWord.toLowerCase();
 
-        if (trieWords.find(inputWord) == null) {
-            return null;
-        }
-
-        if (trieWords.find(inputWord).isWord()) {
+        if (trieWords.find(inputWord) != null && trieWords.find(inputWord).isWord()) {
             return inputWord;
         }
 
@@ -50,9 +47,20 @@ public class SpellCorrector implements ISpellCorrector {
 
         if (matches.size() == 0) {
             for (int i = 0; i < candidates.size(); i++) {
-                candidates2.add(createCandidates(candidates.get(i)).toString());
+                ArrayList<String> temp = createCandidates(candidates.get(i));
+                for (int j = 0; j < temp.size(); j++) {
+                    candidates2.add(temp.get(j));
+                }
             }
-            matches = candidates2;
+            for (int i = 0; i < candidates2.size(); i++) {
+                if (trieWords.find(candidates2.get(i)) != null
+                    && trieWords.find(candidates2.get(i)).isWord()) {
+                    matches.add(candidates2.get(i));
+                }
+            }
+            if (matches.size() == 0) {
+                return null;
+            }
         }
 
         if (matches.size() > 1) {
@@ -62,7 +70,7 @@ public class SpellCorrector implements ISpellCorrector {
             }
         }
 
-        return matches.toString();
+        return matches.get(0);
     }
 
     private ArrayList<String> createCandidates(String inputWord) {

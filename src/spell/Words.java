@@ -46,6 +46,9 @@ public class Words implements ITrie {
                 return null;
             }
         }
+        if (currentNode == null || currentNode.getValue() == 0) {
+            return null;
+        }
         return currentNode;
     }
 
